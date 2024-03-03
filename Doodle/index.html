@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Handwriting recognition</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	</head>
+	<body>
+		<div id="text-wrapper">
+				<input type="text" id="output" placeholder="Loading app..." />
+				<ul id="predict">
+				  	<li>--</li>
+				  	<li>--</li>
+				  	<li>--</li>
+						<li>--</li>
+				  	<li>--</li>
+				  	<li>--</li>
+				</ul>
+				<canvas id="preview"> </canvas>
+				<button id="clear-canvas"><span>CLEAR</span></button>
+		</div>
+
+		<div id="canvas-wrapper">
+			<i class="bi bi-question-circle-fill"></i>	
+			<canvas id="input-canvas"></canvas>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.2/dist/tf.min.js"></script>
+		<script src="main.js"></script>
+	</body>
+</html>
