@@ -16,7 +16,7 @@ function reset(){
     for(let i=0; i<rows; i++){
         for(let j=0; j<columns; j++){
             boardArray[i][j] = 0;
-            htmlArray[i][j].style.backgroundColor = 'white';
+            htmlArray[i][j].style.backgroundColor = '#D6CDA4';
         }
     }
     game_over = false;
@@ -48,15 +48,15 @@ function createBoard() {
 }
 
 let turn = -1;
-let color ='red';
+let color ='#DE3C4B';
 function change(){
     if(turn == -1){
         turn = 1;
-        color='blue';
+        color='#1D3461';
     }
     else{
         turn = -1;
-        color='red';
+        color='#DE3C4B';
     }
 }
 
@@ -86,10 +86,10 @@ function dropPiece(i,j){
 function setWinner(winner){
     const winner_h = document.getElementById('winner_tag');
     if(winner == -1){
-        winner_h.textContent = 'Blue wins!';
+        winner_h.textContent = 'Player wins!';
     }
     else if(winner == 1){
-        winner_h.textContent = 'Red wins!';
+        winner_h.textContent = 'You loose';
     }
     else{
         winner_h.textContent = 'It\'s a draw!';
@@ -179,7 +179,7 @@ function hover(i,j){
 
 function hover_leave(){
     if(prev_hover != null){
-        htmlArray[prev_hover[0]][prev_hover[1]].style.backgroundColor = 'white';
+        htmlArray[prev_hover[0]][prev_hover[1]].style.backgroundColor = '#D6CDA4';
         prev_hover=null;
     }
 }

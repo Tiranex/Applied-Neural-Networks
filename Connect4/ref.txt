@@ -1,1 +1,0 @@
-https://github.com/neoyung/connect-4/tree/master
