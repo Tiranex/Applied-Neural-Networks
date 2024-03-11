@@ -264,10 +264,135 @@ La RN está determinada por los parámetros $\WW^{(i)}$, los desplazamientos $\v
 \end{frame}
 
 \begin{frame}{Funciones de activación}
+Es una abstración que representa la tasa potencial de acción.
+
+Si recibimos cierta entrada debemos valorar, si vamos a realizar una acción o no, es decir 0 si no se toma la acción y viceversa. Puede ocurrir también que queramos una probabilidad
+entre 0 y 1, cuanto más cercana sea a 0 más probable es no tomar acción, de ahi una función de activación sigmoidal.
+
+\end{frame}
+
+\begin{frame}{¿Por qué necesitamos funciones de activación?}
+  Supongamos que no tenemos funciones de activación, luego la red neural es composición de aplicaciones lineales, esto implica que la
+  red es una función lineal.
+
+  Por lo tanto, no importa cuantas capas tenga el modelo, puesto que estamos realizando una transformación lineal en las entradas.
+  Esto es un problema, puesto que no podemos modelar problemas no lineales.
+
+  % Ejemplo de problemas no lineales y lineales por ejemplo de ajustar ecuaciones o similar.
+
+\end{frame}
+
+\begin{frame}{Representación de funciones de activación}
   \vspace{-0.7em}
   \begin{center}
   \includegraphics[width=0.65\linewidth]{funciones_activacion}
   \end{center}
+\end{frame}
+
+\begin{frame}{Funciones de perdia}
+Una función de perdia compara la salida de la red neuronal con la salida esperada, y nos dice que tan bien o mal lo esta haciendo la red neuronal.
+
+Cuando entrenamos, nuestro objetivo es minimazar la perdida entre la salida esperada y la salida de la red neuronal.
+
+\end{frame}
+
+\begin{frame}
+  Podemos pensarlo como un residuo en estadística, que se encarga de  medir la distancia entre los valores actuales de y y los de la linea de regresión (valores predecidos).
+  El objetivo es minimizar la distancia neta.
+
+  % Añadir ejemplo estadística
+\end{frame}
+
+\begin{frame}{Ejemplos de funciones de perdida}
+Principalmente se agrupan en:
+% Itemize
+Perdida de regresión: Dado un valor de entrada, el modelo predice el valor de salida. 
+Ejemplos: Mean Squared Error, Mean Absolute Error...
+
+Perdida de clasificación: Dado un valor de entrada, el modelo devuelve un vector de probabilidades de que la entrada pertencezca a una serie de categorias preestablecidas.
+Ejemplos: Binary Cross Entropy, Categorical Cross Entropy...
+\end{frame}
+
+\begin{frame}{Optimizadores}
+Los optimizadores son algoritmos que se usan para minimizar la función de perdida o maximizar la función de ganancia. 
+Cada vez que predecimos un valor mediante la red y comparamos con el valor real, el optimizador ajusta los pesos de la red para minimizar la perdida.
+
+Ejemplos: Adam, RMSprop, SGD...
+\end{frame}
+
+\begin{frame}{SGD}
+El algoritmo de descenso de gradiente estocástico (SGD) es un algoritmo de optimización que se utiliza para minimizar una función objetivo.
+Para implementarlo:
+$a_n+1=a_n - \delta \nambda F(a_n)$
+
+La idea es que el gradiente muestra la dirección de descenso entonces al movernos en esa dirección vamos a llegar a un mínimo, el problema es que puede ser un mínimo o un máximo.
+% Añadir ejemplo imagen
+% Añadir ejemplo web
+\end{frame}
+
+\begin{frame}{¿Cómo se calculan las derivadas?}
+En ausencia de funciones de activación, la red neural es una función lineal, por lo que el gradiente de la función de perdida con respecto a los pesos de la red es una matriz de valores constantes.
+
+En presencia de funciones de activación, la expresión como composición de funciones no es tan sencilla y se utilizan técnicas numericos llamadas Backpropagation.
+\end{frame}
+
+\begin{frame}{Hiperparámetros}
+  Un hiperparámetro es un valor constante que se establece previo al  entrenamiento.
+  Ejemplos: Tasa de aprendizaje, número de capas, número de neuronas, funciones de activación, funciones de perdida, optimizadores...
+
+  Si un modelo no se comporta bien, entonces tenemos que modificar los hiperparámetros, ya sea para conseguir que el modulo aprenda más lento (tasa de aprendizaje), hacerlo más complejo (añadir más capas)\dots
+\end{frame}
+\begin{frame}{Tasa de aprendizaje}
+  La tasa de aprendizaje define el tamaño de los pasos correctivas para que el modelo ajuste los errores en cada observación. Una tasa de aprendizaje muy alta
+  provoca que el tiempo de entrenamiento sea menor, pero puede que el modelo no sea tan precioso. Por otro lado, una tasa de aprendizaje menor provoca un tiempo mayor de procesamiento, pero tiene el potencial de tener más precisión.
+
+  % NO ES UNA CIENCIA EXACTA
+\end{frame}
+
+\begin{frame}{Batch Size}
+  El tamaño del lote es el número de ejemplos de entrenamiento que se proporcionan a la red antes de que el optimizador actualice los pesos.
+
+  Un buen tamaño de lote es generalmente 32. Pueden probarse: 32, 64, 128, 256...
+\end{frame}
+
+\begin{frame}{Numeros de epochs}
+  Es el número de veces que se entrena la red con el conjunto de datos de entrenamiento.
+
+\end {frame}
+
+\begin{frame}{En resumen}
+Mientras que epoch < nº epoch
+    Tomamos una porción de datos (#BATCH_SIZE) y la pasamos por la red, calculamos la perdida (función de perdida) y actualizamos los pesos (optimizadores).
+Fin Mientras
+
+Cada vez que empleamos la función de perdida lo usual es mostrar por consola la perdida, para ver si el modelo esta aprendiendo o no.
+Una perdida alta implica que al modelo todavía le queda mucho por aprender y no es preciso. (underfitting)
+Una perdida extremadamente baja puede llevar a casos de overfitting.
+
+%Mostrar ejemplo de entrenamiento en tensorflow
+\end{frame}
+
+\begin{frame}
+  Principalmente hay dos frameworks que se utilizan:
+  TensorFlow es una biblioteca de código abierto para aprendizaje automático a través de un rango de tareas, y desarrollado por Google para satisfacer sus necesidades de sistemas capaces de construir y entrenar redes neuronales para detectar y descifrar patrones y correlaciones, análogos al aprendizaje y razonamiento usados por los humanos.
+PyTorch12 es una biblioteca de aprendizaje automático3 de código abierto basada en la biblioteca de Torch, utilizado para aplicaciones como visión artificial y procesamiento de lenguajes naturales, principalmente desarrollado por el Laboratorio de Investigación de Inteligencia Artificial4 de Facebook (FAIR).
+
+% Añadir imagenes de tensorflow y pytorch
+
+\end{frame}
+
+\section{Ejemplos prácticos}
+\begin{frame}{title}
+  La idea de esta sección es ir mostrando una serie de ejemplos prácticos,
+  para que se vea como se implementa una red neuronal en la práctica.
+
+  Para ello tenemos que responder:
+  ¿Cómo 
+\end{frame}
+
+\begin{frame}{Conecta4 AI}
+¿Cómo podemos entrenar una red para que juegue a un juego de mesa?
+
 \end{frame}
 
 %--------------------------------------------------------------
