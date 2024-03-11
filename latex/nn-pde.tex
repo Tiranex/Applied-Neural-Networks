@@ -3,6 +3,10 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
+%Justificación del texto
+\usepackage{ragged2e}
+\justifying
+
 \usepackage{pgf,pgfpages}
 \usepackage{pgffor} % For loops
 \usepackage{tikz}
@@ -263,20 +267,25 @@ $$
 La RN está determinada por los parámetros $\WW^{(i)}$, los desplazamientos $\vect b^{(i)}$ y las funciones de activación $\boldsymbol\sigma_i$
 \end{frame}
 
+\section{Partes básicas de una red neuronal}
+
+%\alert{descenso de gradiente}\footnote{\url{https://en.wikipedia.org/wiki/Gradient_descent}}
 \begin{frame}{Funciones de activación}
-Es una abstración que representa la tasa potencial de acción.
-
-Si recibimos cierta entrada debemos valorar, si vamos a realizar una acción o no, es decir 0 si no se toma la acción y viceversa. Puede ocurrir también que queramos una probabilidad
-entre 0 y 1, cuanto más cercana sea a 0 más probable es no tomar acción, de ahi una función de activación sigmoidal.
-
+Es una abstración que representa la \structure{\bf tasa potencial de acción.}
+\begin{center}
+  \includegraphics[width=1\linewidth]{src/Activation-IMG-1.png}
+  \footnote{\href{https://www.researchgate.net/publication/317679065_Ranking_to_Learn_and_Learning_to_Rank_On_the_Role_of_Ranking_in_Pattern_Recognition_Applications}{Ranking to Learn and Learning to Rank: On the Role of Ranking in Pattern Recognition Applications}}
+\end{center}
+Dada una entrada se procesa \textbf{(parte lineal)} y se valora si la neurona dispara o no \alert{perceptron}. Para comportamientos más complejos podemos devolver una probabilidad
+si es baja menos probable es que dispare y viceversa, de ahí proviene la \alert{función de activación sigmoidal.}
 \end{frame}
 
 \begin{frame}{¿Por qué necesitamos funciones de activación?}
-  Supongamos que no tenemos funciones de activación, luego la red neural es composición de aplicaciones lineales, esto implica que la
-  red es una función lineal.
-
+  Supongamos que no tenemos funciones de activación, luego la red neural es composición de aplicaciones lineales, esto implica que \structure{\bf la
+  red es una función lineal.}
+  $$f_{NN}({\color{inputcolor}x}) = {\color{hiddencolor}w_1 x_1 + w_2 x_2 + \cdots + w_{N_i} x_{N_i} + b}$$
   Por lo tanto, no importa cuantas capas tenga el modelo, puesto que estamos realizando una transformación lineal en las entradas.
-  Esto es un problema, puesto que no podemos modelar problemas no lineales.
+  Esto es un problema, puesto que no podemos \alert{modelar problemas no lineales}.
 
   % Ejemplo de problemas no lineales y lineales por ejemplo de ajustar ecuaciones o similar.
 
@@ -289,41 +298,99 @@ entre 0 y 1, cuanto más cercana sea a 0 más probable es no tomar acción, de a
   \end{center}
 \end{frame}
 
-\begin{frame}{Funciones de perdia}
-Una función de perdia compara la salida de la red neuronal con la salida esperada, y nos dice que tan bien o mal lo esta haciendo la red neuronal.
+\begin{frame}{Funciones de perdida}
+Una función de perdia compara la salida de la red neuronal con la salida esperada, y nos dice que tan \structure{\bf bien o mal lo esta haciendo la red neuronal.}
 
-Cuando entrenamos, nuestro objetivo es minimazar la perdida entre la salida esperada y la salida de la red neuronal.
+\vspace*{0.8em}
 
+Cuando entrenamos, nuestro objetivo es \alert{minimazar la perdida entre la salida esperada y la salida de la red neuronal.}
+
+\vspace*{0.8em}
+
+Ejemplos:
+\begin{itemize}
+  \item Problema de regresión $$
+  y_{pred}=\begin{pmatrix}
+    250 & 300 \\
+    300 & 400 \\ 
+  \end{pmatrix}
+  \hspace*{0.8em}
+  y_{real} = \begin{pmatrix}
+    100 & 150 \\
+    400 & 200 \\
+  \end{pmatrix}
+  $$
+  \item Problema de clasificación
+  $$
+  y_{pred}=\begin{bmatrix}
+    0.12 \\
+    0.48 \\
+    0.4 \\ 
+  \end{bmatrix}
+  \hspace*{0.8em}
+  y_{real} = \begin{bmatrix}
+    0 \\
+    1 \\
+    0 \\
+  \end{bmatrix}
+  $$
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-  Podemos pensarlo como un residuo en estadística, que se encarga de  medir la distancia entre los valores actuales de y y los de la linea de regresión (valores predecidos).
-  El objetivo es minimizar la distancia neta.
+  Podemos pensarlo como un residuo en estadística, que se encarga de  medir la distancia entre los \textbf{valores actuales de y y los de la linea de regresión} (valores predecidos).
+  
+  \vspace{0.8em}
 
+  \textbf{El objetivo es minimizar la distancia neta.}
+  \begin{center}
+    \includegraphics[width=0.5\linewidth]{src/Linear_regression.png}
+    \footnote{\href{https://en.wikipedia.org/wiki/Linear_regression}{Wikipedia - Linear regression}}
+  \end{center}
   % Añadir ejemplo estadística
 \end{frame}
 
 \begin{frame}{Ejemplos de funciones de perdida}
 Principalmente se agrupan en:
-% Itemize
-Perdida de regresión: Dado un valor de entrada, el modelo predice el valor de salida. 
-Ejemplos: Mean Squared Error, Mean Absolute Error...
+\begin{itemize}
+  \item \structure{\bf Perdida de regresión:} Dado un valor de entrada, el modelo predice el valor de salida. 
+  
+  \vspace{0.5em}
 
-Perdida de clasificación: Dado un valor de entrada, el modelo devuelve un vector de probabilidades de que la entrada pertencezca a una serie de categorias preestablecidas.
-Ejemplos: Binary Cross Entropy, Categorical Cross Entropy...
+  Ejemplos: \textbf{Mean Squared Error, Mean Absolute Error...}
+
+  $$MSE=\frac{1}{n}\sum_{i=1}^{n}(y^{(i)} - y_{pred}^{(i)})^2 $$
+  $$MAE=\frac{1}{n}\sum_{i=1}^{n}| y^{(i)} - y_{pred}^{(i)}| $$
+  \item \structure{\bf Perdida de clasificación:} Dado un valor de entrada, el modelo devuelve un vector de probabilidades de que la entrada pertencezca a una serie de categorias preestablecidas.
+
+  \vspace{0.5em}
+
+  Ejemplos: \textbf{Binary Cross Entropy, Categorical Cross Entropy...}
+
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Optimizadores}
-Los optimizadores son algoritmos que se usan para minimizar la función de perdida o maximizar la función de ganancia. 
-Cada vez que predecimos un valor mediante la red y comparamos con el valor real, el optimizador ajusta los pesos de la red para minimizar la perdida.
+Son algoritmos que se usan para \structure{\bf minimizar la función de perdida} o maximizar la función de ganancia.
+Ejemplos: \alert{Adam, RMSprop, SGD...}
+\vspace*{0.8em}
 
-Ejemplos: Adam, RMSprop, SGD...
+Cada vez que predecimos un valor mediante la red y comparamos con el valor real, \textbf{el optimizador ajusta los pesos de la red para minimizar la perdida.}
+\begin{center}
+  \includegraphics[width=0.5\linewidth]{src/Extrema_example_original.png}
+\end{center}
+
+
+Queremos obtener un mínimo global en la función de perdida. 
+
 \end{frame}
 
-\begin{frame}{SGD}
-El algoritmo de descenso de gradiente estocástico (SGD) es un algoritmo de optimización que se utiliza para minimizar una función objetivo.
+\begin{frame}{Gradient Descent}
+El algoritmo de descenso de gradiente es un \structure{\bf algoritmo de optimización que se utiliza para minimizar una función objetivo.}
+
+
 Para implementarlo:
-$a_n+1=a_n - \delta \nambda F(a_n)$
+$$a_n+1=a_n - \delta \lambda F(a_n)$$
 
 La idea es que el gradiente muestra la dirección de descenso entonces al movernos en esa dirección vamos a llegar a un mínimo, el problema es que puede ser un mínimo o un máximo.
 % Añadir ejemplo imagen
@@ -360,17 +427,7 @@ En presencia de funciones de activación, la expresión como composición de fun
 
 \end {frame}
 
-\begin{frame}{En resumen}
-Mientras que epoch < nº epoch
-    Tomamos una porción de datos (#BATCH_SIZE) y la pasamos por la red, calculamos la perdida (función de perdida) y actualizamos los pesos (optimizadores).
-Fin Mientras
-
-Cada vez que empleamos la función de perdida lo usual es mostrar por consola la perdida, para ver si el modelo esta aprendiendo o no.
-Una perdida alta implica que al modelo todavía le queda mucho por aprender y no es preciso. (underfitting)
-Una perdida extremadamente baja puede llevar a casos de overfitting.
-
-%Mostrar ejemplo de entrenamiento en tensorflow
-\end{frame}
+%% Añadir algo
 
 \begin{frame}
   Principalmente hay dos frameworks que se utilizan:
@@ -387,13 +444,67 @@ PyTorch12 es una biblioteca de aprendizaje automático3 de código abierto basad
   para que se vea como se implementa una red neuronal en la práctica.
 
   Para ello tenemos que responder:
-  ¿Cómo 
-\end{frame}
+  ¿Es una red neuronal adecuada para nuestro problema?
+  ¿Cuál va a ser nuestros datos de entrenamiento?
+  ¿Cuál es nuestra arquitectura?
+  ¿Qué hiperparámetros escoger?
 
+\end{frame}
+% Añadir cuando no es buena idea una red neuronal
 \begin{frame}{Conecta4 AI}
-¿Cómo podemos entrenar una red para que juegue a un juego de mesa?
+Datos de entrenamiento
+Mediante el algoritmo Minimax, se genera una tabla de entrenamiento que recoge para una posición del tablero, la mejor jugada que se puede hacer.
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  Estado Tablero 1 & Actua 2 & Mejor acción 3 \\
+  \hline
+  \begin{pmatrix}
+
+    1 & 0 & 0 & 0 & 0 & 0 \\
+
+  \end{pmatrix} 1 & Valor 2 & Valor 3 & Valor 4 \\
+  \hline
+  \end{tabular}
+  \caption{Tabla de ejemplo}
+\end{table}
+
+%\url{https://es.wikipedia.org/wiki/Minimax#/media/Archivo:Minimax.svg}
 
 \end{frame}
+
+\begin{frame}{arquitectura}
+  %% Insertar imagen arquitectura
+\end{frame}
+
+\begin{frame}{Convolución}
+% https://towardsdatascience.com/conv2d-to-finally-understand-what-happens-in-the-forward-pass-1bbaafb0b148
+Son muy importantes cuando tenemos que procesar imágenes, puesto
+que ayudan a simplificar la imagen, para luego pasarlo por una capa densa y obtener un buen resultado.
+\end{frame}
+
+\begin{frame}{Hiperparámetros}
+  train_size = 90000
+  val_size = 5000
+  test_size = 5000
+  
+  
+  BATCH_SIZE = 64
+  EPOCHS = 512
+  LR = 0.001
+  % Puedes tener todo bien y porque calcules mas la perdida da el ejemplo con un vector de clasificación
+  %Añadir dos diferentes para completar y preguntar que creen que deberia de ser la perdida
+    %LOSS = 'sparse_categorical_crossentropy'
+\end{frame}
+
+\begin{frame}{Criptografia AI}
+
+  
+\end{frame}
+
+
+
 
 %--------------------------------------------------------------
 \section{Ajuste de los parámetros}

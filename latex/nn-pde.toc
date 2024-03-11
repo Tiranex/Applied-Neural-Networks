@@ -1,0 +1,5 @@
+\babel@toc {english}{}\relax 
+\beamer@sectionintoc {1}{Neural Networks}{2}{0}{1}
+\beamer@sectionintoc {2}{Partes básicas de una red neuronal}{9}{0}{2}
+\beamer@sectionintoc {3}{Ejemplos prácticos}{24}{0}{3}
+\beamer@sectionintoc {4}{Ajuste de los parámetros}{31}{0}{4}
