@@ -377,184 +377,469 @@ Ejemplos: \alert{Adam, RMSprop, SGD...}
 
 Cada vez que predecimos un valor mediante la red y comparamos con el valor real, \textbf{el optimizador ajusta los pesos de la red para minimizar la perdida.}
 \begin{center}
-  \includegraphics[width=0.5\linewidth]{src/Extrema_example_original.png}
+  \includegraphics[width=0.4\linewidth]{src/Extrema_example_original.png}
 \end{center}
-
-
 Queremos obtener un mínimo global en la función de perdida. 
+
+
 
 \end{frame}
 
-\begin{frame}{Gradient Descent}
+\begin{frame}{Gradient Descent\footnote{\href{https://tiranex.github.io/Gradient-Descent/}{Simulador de descenso de gradiente - Elaboración Propia}}}
 El algoritmo de descenso de gradiente es un \structure{\bf algoritmo de optimización que se utiliza para minimizar una función objetivo.}
 
 
 Para implementarlo:
-$$a_n+1=a_n - \delta \lambda F(a_n)$$
+$$a_{n+1}=a_n - \delta \nabla F(a_n)$$
 
-La idea es que el gradiente muestra la dirección de descenso entonces al movernos en esa dirección vamos a llegar a un mínimo, el problema es que puede ser un mínimo o un máximo.
+La idea es que el gradiente muestra la dirección de descenso entonces al movernos en esa dirección vamos a llegar a un mínimo, el problema es que puede no ser un mínimo global.
 % Añadir ejemplo imagen
 % Añadir ejemplo web
 \end{frame}
 
 \begin{frame}{¿Cómo se calculan las derivadas?}
-En ausencia de funciones de activación, la red neural es una función lineal, por lo que el gradiente de la función de perdida con respecto a los pesos de la red es una matriz de valores constantes.
+Se emplea una técnica llamada \structure{\bf Backpropagation} que se encarga de calcular las derivadas de la función de perdida con respecto a los pesos de la red.
 
-En presencia de funciones de activación, la expresión como composición de funciones no es tan sencilla y se utilizan técnicas numericos llamadas Backpropagation.
+\vspace{0.8em}
+
+Ejemplo: \alert{$f(x,y)=(\frac{x}{y}+5)^2+x$ \hspace{0.8em}$\frac{\partial f}{x}(6,2)$}
+
+\vspace{0.8em}
+
+Construimos el grafo de computación:
+
+$$
+\begin{array}{|c|c|} \hline
+  w_0=x                                                            \\ \hline
+  w_1=y                                                                        \\ \hline
+  w_2=w_0/w_1+5              \\ \hline
+  w_3=w_2^2                    \\ \hline
+  w_4=w_3+w_0                \\ \hline
+\end{array}
+$$
+\end{frame}
+
+\begin{frame}{¿Cómo se calculan las derivadas?}
+  Se emplea una técnica llamada \structure{\bf Backpropagation} que se encarga de calcular las derivadas de la función de perdida con respecto a los pesos de la red.
+  
+  \vspace{0.8em}
+  
+  Ejemplo: \alert{$f(x,y)=(\frac{x}{y}+5)^2+x$ \hspace{0.8em}$\frac{\partial f}{x}(6,2)$}
+  
+  \vspace{0.8em}
+  
+  Hacemos un pasada evaluando cada nodo.
+  
+  $$
+  \begin{array}{|c|c|} \hline
+    w_0=x              & w_0=6                                             \\ \hline
+    w_1=y                     & w_1 = 2                                                   \\ \hline
+    w_2=w_0/w_1+5           & w_2=8   \\ \hline
+    w_3=w_2^2           &w_3=64         \\ \hline
+    w_4=w_3+w_0          &w_4=70      \\ \hline
+    \end{array}
+  $$
+\end{frame}
+
+\begin{frame}{¿Cómo se calculan las derivadas?}
+  Se emplea una técnica llamada \structure{\bf Backpropagation} que se encarga de calcular las derivadas de la función de perdida con respecto a los pesos de la red.
+  
+  \vspace{0.8em}
+  
+  Ejemplo: \alert{$f(x,y)=(\frac{x}{y}+5)^2+x$ \hspace{0.8em}$\frac{\partial f}{x}(6,2)$}
+  
+  \vspace{0.8em}
+  
+  Empleamos la regla de la cadena en reverso.
+  
+  $$
+  \begin{array}{|c|c|c|} \hline
+    w_0=x              & w_0=6    & \frac{\partial z}{\partial w_0}=\frac{\partial z}{\partial w_2}\frac{\partial w_2}{\partial w_0} + \frac{\partial z}{\partial w_4}\frac{\partial w_4}{\partial w_0} = (2\cdot w_2)\cdot \frac{1}{w_1}+1                                       \\ \hline
+    w_1=y                     & w_1 = 2 & \frac{\partial z}{\partial w_1}=\frac{\partial z}{\partial w_2}\frac{\partial w_2}{\partial w_1}                          =2\cdot w_2 \cdot(\frac{-w_0}{w_1^2})                        \\ \hline
+    w_2=w_0/w_1+5           & w_2=8 & \frac{\partial z}{\partial w_2}=\frac{\partial z}{\partial w_3}\frac{\partial w_3}{\partial w_2}=2\cdot w_2   \\ \hline
+    w_3=w_2^2           &w_3=64        & \frac{\partial z}{\partial w_3}=\frac{\partial z }{\partial w_4}\frac{\partial w_4}{\partial w_3}=1 \\ \hline
+    w_4=w_3+w_0          &w_4=70 & \frac{\partial z}{\partial w_4}=1 (seed)      \\ \hline
+    \end{array}
+  $$
+\end{frame}
+
+\begin{frame}{¿Cómo se calculan las derivadas?}
+  Se emplea una técnica llamada \structure{\bf Backpropagation} que se encarga de calcular las derivadas de la función de perdida con respecto a los pesos de la red.
+  
+  \vspace{0.8em}
+  
+  Ejemplo: \alert{$f(x,y)=(\frac{x}{y}+5)^2+x$ \hspace{0.8em}$\frac{\partial f}{x}(6,2)$}
+  
+  \vspace{0.8em}
+  
+  Sustituyendo obtenemos $\frac{\partial f}{x}(6,2)= 9$ $\frac{\partial f}{x}(6,2)=-24$
+  
+  $$
+  \begin{array}{|c|c|c|} \hline
+    w_0=x              & w_0=6    & \frac{\partial z}{\partial w_0}=9                                      \\ \hline
+    w_1=y                     & w_1 = 2 & \frac{\partial z}{\partial w_1}=-24                        \\ \hline
+    w_2=w_0/w_1+5           & w_2=8 & \frac{\partial z}{\partial w_2}=16   \\ \hline
+    w_3=w_2^2           &w_3=64        & \frac{\partial z}{\partial w_3}=1 \\ \hline
+    w_4=w_3+w_0          &w_4=70 & \frac{\partial z}{\partial w_4}=1 (seed)      \\ \hline
+    \end{array}
+  $$
 \end{frame}
 
 \begin{frame}{Hiperparámetros}
-  Un hiperparámetro es un valor constante que se establece previo al  entrenamiento.
-  Ejemplos: Tasa de aprendizaje, número de capas, número de neuronas, funciones de activación, funciones de perdida, optimizadores...
+  Un hiperparámetro es un \structure{\bf valor constante que se establece previo al  entrenamiento.}
+  
+  \vspace*{0.8em}
+  
+  Ejemplos: \alert{Tasa de aprendizaje, número de capas, funciones de activación, funciones de perdida, optimizadores...}
 
-  Si un modelo no se comporta bien, entonces tenemos que modificar los hiperparámetros, ya sea para conseguir que el modulo aprenda más lento (tasa de aprendizaje), hacerlo más complejo (añadir más capas)\dots
+  \vspace*{0.8em}
+
+  Si un modelo no se comporta bien, entonces tenemos que modificar los hiperparámetros, ya sea para conseguir que la red aprenda más lento (tasa de aprendizaje), hacerlo más complejo (añadir más capas)\dots
 \end{frame}
 \begin{frame}{Tasa de aprendizaje}
-  La tasa de aprendizaje define el tamaño de los pasos correctivas para que el modelo ajuste los errores en cada observación. Una tasa de aprendizaje muy alta
-  provoca que el tiempo de entrenamiento sea menor, pero puede que el modelo no sea tan precioso. Por otro lado, una tasa de aprendizaje menor provoca un tiempo mayor de procesamiento, pero tiene el potencial de tener más precisión.
+  La tasa de aprendizaje define el \structure{\bf tamaño de los pasos correctivas para que el modelo ajuste los errores en cada observación.} 
+  \begin{itemize}
+    \item \alert{Tasa de aprendizaje alta} $\rightarrow$ 
+    
 
+    Tiempo de entrenamiento menor $//$ Precisión menor
+    \item \alert{Tasa de aprendizaje baja} $\rightarrow$ 
+    
+    
+    Tiempo de entrenamiento mayor $//$ Precisión mayor
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{src/Learning_Rate.png}
+  \end{center}
   % NO ES UNA CIENCIA EXACTA
 \end{frame}
 
 \begin{frame}{Batch Size}
-  El tamaño del lote es el número de ejemplos de entrenamiento que se proporcionan a la red antes de que el optimizador actualice los pesos.
+  \structure{\bf Número de ejemplos de entrenamiento} que se proporcionan a la red antes de que el optimizador actualice los pesos.
 
-  Un buen tamaño de lote es generalmente 32. Pueden probarse: 32, 64, 128, 256...
+  \vspace*{0.8em}
+
+  Un buen tamaño de lote es generalmente \textbf{32}. 
+  
+  
+  Otros válidos son: 32, 64, 128, 256...
+
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{src/Batch_size.png}
+  \end{center}
+
 \end{frame}
 
 \begin{frame}{Numeros de epochs}
-  Es el número de veces que se entrena la red con el conjunto de datos de entrenamiento.
+  Es el \structure{\bf número de veces que se entrena la red} con el conjunto de datos de entrenamiento.
+
+  \begin{center}
+    \includegraphics[width=1\linewidth]{src/Iterations-Epoch.png}
+  \end{center}
 
 \end {frame}
 
-%% Añadir algo
+\begin{frame}{En resumen}
+  Mientras que \textbf{$EPOCH < n\_epoch$}
+  
+  
+  \hspace{0.8em}Tomamos una porción de datos \textbf{$\#BATCH\_SIZE$} y la pasamos por la 
+  
 
-\begin{frame}
+  \hspace{0.8em}red, calculamos la perdida \textbf{(función de perdida)} y actualizamos los 
+  
+  
+  \hspace*{0.8em}pesos \textbf{(optimizadores).}
+  
+  
+  Fin Mientras
+
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{src/Resumen.png}
+  \end{center}
+  
+  
+  
+  %Mostrar ejemplo de entrenamiento en tensorflow
+\end{frame}
+
+\begin{frame}{Frameworks}
   Principalmente hay dos frameworks que se utilizan:
-  TensorFlow es una biblioteca de código abierto para aprendizaje automático a través de un rango de tareas, y desarrollado por Google para satisfacer sus necesidades de sistemas capaces de construir y entrenar redes neuronales para detectar y descifrar patrones y correlaciones, análogos al aprendizaje y razonamiento usados por los humanos.
-PyTorch12 es una biblioteca de aprendizaje automático3 de código abierto basada en la biblioteca de Torch, utilizado para aplicaciones como visión artificial y procesamiento de lenguajes naturales, principalmente desarrollado por el Laboratorio de Investigación de Inteligencia Artificial4 de Facebook (FAIR).
+  \begin{itemize}
+    \item \structure{\bf TensorFlow} es una biblioteca de código abierto para aprendizaje automático a través de un rango de tareas, y desarrollado por \textbf{Google} para satisfacer sus necesidades de sistemas capaces de construir y entrenar redes.
+    \item \structure{\bf PyTorch} es una biblioteca de aprendizaje automático de código abierto basada en la biblioteca de Torch, utilizado para aplicaciones como visión artificial y procesamiento de lenguajes naturales, principalmente desarrollado por el Laboratorio de Investigación de Inteligencia Artificial de \textbf{Facebook} (FAIR). 
+  \end{itemize}
+  
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{src/Py-torch-tensorflow.png}
+  \end{center}
 
 % Añadir imagenes de tensorflow y pytorch
 
 \end{frame}
 
 \section{Ejemplos prácticos}
-\begin{frame}{title}
+\begin{frame}{Ejemplos prácticos}
   La idea de esta sección es ir mostrando una serie de ejemplos prácticos,
   para que se vea como se implementa una red neuronal en la práctica.
 
-  Para ello tenemos que responder:
-  ¿Es una red neuronal adecuada para nuestro problema?
-  ¿Cuál va a ser nuestros datos de entrenamiento?
-  ¿Cuál es nuestra arquitectura?
-  ¿Qué hiperparámetros escoger?
+  \vspace*{0.8em}
 
+  Para ello tenemos que responder:
+  \begin{itemize}
+    \item ¿Es una red neuronal adecuada para nuestro problema?
+    \item ¿Cuál va a ser nuestros \alert{datos de entrenamiento}?
+    \item ¿Cuál es nuestra \alert{arquitectura}?
+    \item ¿Qué hiperparámetros escoger?
+  \end{itemize}
 \end{frame}
 % Añadir cuando no es buena idea una red neuronal
 \begin{frame}{Conecta4 AI}
-Datos de entrenamiento
-Mediante el algoritmo Minimax, se genera una tabla de entrenamiento que recoge para una posición del tablero, la mejor jugada que se puede hacer.
-% \begin{table}[ht]
+\Large{\textbf{Datos de entrenamiento}}
+
+\vspace*{0.8em}
+
+Mediante el \structure{\bf algoritmo Minimax,} se genera una tabla de entrenamiento que recoge para una posición del tablero, la mejor jugada que se puede hacer.
+ \begin{table}[ht]
   \centering
   \begin{tabular}{|c|c|c|c|}
   \hline
-  Estado Tablero 1 & Actua 2 & Mejor acción 3 \\
+  Estado Tablero  & Actua  & Mejor acción  \\
   \hline
- 4949 & Valor 2 & Valor 3 & Valor 4 \\
+ $\begin{bmatrix}
+  1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  1 & 2 & 0 & 0 & 0 & 0 & 0 \\
+  2 & 1 & 0 & 0 & 0 & 0 & 0 \\
+  2 & 2 & 0 & 0 & 0 & 0 & 0 \\
+  1 & 2 & 0 & 2 & 0 & 1 & 0 \\
+  2 & 2 & 1 & 1 & 0 & 1 & 1 \\
+ \end{bmatrix}$ & 2 & 4 \\
   \hline
   \end{tabular}
-  \caption{Tabla de ejemplo}
-% \end{table}
+ \end{table}
 
 %\url{https://es.wikipedia.org/wiki/Minimax#/media/Archivo:Minimax.svg}
 
 \end{frame}
 
-\begin{frame}{arquitectura}
-  %% Insertar imagen arquitectura
+\begin{frame}{Arquitectura}
+  \alert{\Large{Input (Imagen) $\rightarrow$ Convolución $\rightarrow$ Densa $\rightarrow$ Salida (7)}}
+  \begin{center}
+    \includegraphics[width=1\linewidth]{src/model (1).png}
+  \end{center}
 \end{frame}
 
 \begin{frame}{Convolución}
 % https://towardsdatascience.com/conv2d-to-finally-understand-what-happens-in-the-forward-pass-1bbaafb0b148
 Son muy importantes cuando tenemos que procesar imágenes, puesto
-que ayudan a simplificar la imagen, para luego pasarlo por una capa densa y obtener un buen resultado.
+que ayudan a \alert{simplificar la imagen,} para luego pasarlo por una capa densa y obtener un buen resultado.
+\begin{center}
+  \includegraphics[width=1\linewidth]{src/Conv2D.png}
+\end{center}
 \end{frame}
 
 \begin{frame}{Hiperparámetros}
-  train_size = 90000
-  val_size = 5000
-  test_size = 5000
+  $$train\_size = 90000$$
+  $$val\_size = 5000$$
+  $$test\_size = 5000$$
   
   
-  BATCH_SIZE = 64
-  EPOCHS = 512
-  LR = 0.001
-  % Puedes tener todo bien y porque calcules mas la perdida da el ejemplo con un vector de clasificación
-  %Añadir dos diferentes para completar y preguntar que creen que deberia de ser la perdida
-    %LOSS = 'sparse_categorical_crossentropy'
+  $$BATCH\_SIZE = 64$$
+  $$EPOCHS = 512$$
+  $$LR = 0.001$$
+  
+  \textbf{¿Función de perdida?}
+
+  
+  \alert{Clasificación} o \alert{Regresión}
+
+
+  $LOSS = 'sparse\_categorical\_crossentropy'$
 \end{frame}
 
 \begin{frame}{Criptografia AI}
-Datos de entrenamiento
-Imagenes aleatorias de tamaño 256x256
-Texto aleatorio en formato ASCII
+  \Large{\textbf{Datos de entrenamiento}}
 
+  \vspace*{0.8em}
 
-% Separar en 2?
-Arquitectura: Autoencoder %iso Identidad
-Encoder: Inccrusta el texto en la imagen devolviendo una imagen modificada.
-Decoder: Devuelve el texto incrustado en la imagen.
+  \begin{itemize}
+    \item Imagenes aleatorias de tamaño 256x256
+    \item Texto aleatorio en formato ASCII
+      \textbf{$$[ 30, 250, 240,100, 30, 40, 60]$$}
+  \end{itemize}
+  \begin{center}
+    \includegraphics[width=0.45\linewidth]{src/example_input.png}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}{Arquitectura}
+  \textbf{AutoEncoder}
+
+  \vspace*{0.8em}
+
+  \begin{itemize}
+    \item \textbf{\alert{Encoder:}} Incrusta el texto en la imagen devolviendo una imagen modificada.
+    \item \textbf{\alert{Decoder:}} Devuelve el texto incrustado en la imagen.
+  \end{itemize}
 
 \begin{center}
-  \includegraphics[width=0.5\linewidth]{src/AutoEncoder-arq.png}
+  \includegraphics[width=0.75\linewidth]{src/AutoEncoder-arq.png}
 \end{center}
 
 \end{frame}
 
-\begin{frame}{Encoder y Decoder}
+\begin{frame}{Encoder}
   % Añadir imagen de encoder y decoder
   \begin{center}
-    \includegraphics[width=0.5\linewidth]{src/Encoder-arq.png}
-  \end{center}
-  \begin{center}
-    \includegraphics[width=0.5\linewidth]{src/Decoder-arq.png}
+    \includegraphics[width=1\linewidth]{src/Encoder-arq.png}
   \end{center}
 \end{frame}
 
-\begin{frame}{Hiperparámetros}
-  % Añadir quizas la estructura en tf
-  epochs=512, 
-  steps_per_epoch=512,
-  BATCH_SIZE = 64
-  LR = 0.001
+\begin{frame}{Decoder}
+  \begin{center}
+    \includegraphics[width=1\linewidth]{src/Decoder-arq.png}
+  \end{center}
+\end{frame}
 
-  Funciones de perdida?
-  1º MSE
-  2º Categorical Cross Entropy
+
+
+\begin{frame}{Hiperparámetros}
+
+  $$epochs=512$$ 
+  $$steps\_per\_epoch=512$$
+  $$BATCH\_SIZE = 64$$
+  $$LR = 0.001$$
+
+  \vspace*{0.8em}
+
+  \textbf{Funciones de perdida}
+  \begin{itemize}
+    \item \alert{$1-$ MSE}
+    \item \alert{$2-$ Categorical Cross Entropy}
+  \end{itemize}
+
 \end{frame}
 
 \begin{frame}{Doodle}
-Base de Datos
-% Añadir ejemplos de dibujos
-\end{frame}
+  \textbf{Datos de entrenamiento}
 
-\begin{frame}{Arquitectura}
-  % Añadir imagen de arquitectura
-\end{frame}
-
-\begin{frame}{Hiperparámetros}
-  % Añadir quizas la estructura en tf
-  epochs=512, 
-  steps_per_epoch=512,
-  BATCH_SIZE = 64
-  LR = 0.001
-
-  Funciones de perdida?
-  1º MSE
-  2º Categorical Cross Entropy
+  \vspace*{0.8em}
+\begin{itemize}
+  \item Imagenes \textbf{(Doodles)\footnote{\url{https://quickdraw.withgoogle.com/}}}
+  \begin{center}
+    \includegraphics[width=1\linewidth]{src/preview.jpg}
+  \end{center}
+  \item Categorias:
+  $$[aircraft carrier,
+  airplane,
+  alarm clock,
+  ambulance,
+  angel...]$$
+\end{itemize}
 \end{frame}
 
 \begin{frame}{ED}
+\Large{
+Vamos a resolver la siguiente PDE:
+\begin{equation*}
+  \begin{cases}
+    $$\phi_t + u\phi_x=0, (x,t)\in(0,1)\times(0,1) \\
+    \phi(t,0)=\phi(t,1), t\in(0,1) \\
+    \phi(0,x)=sin(2\pi x /L), x\in(0,1)$$
+  \end{cases}
+\end{equation*}
+
+Donde \textbf{$u=1$} es la velocidad y \textbf{$L=1$}, son valores 
+
+
+escalares constantes.
+
+\vspace*{0.8em}
+
+\structure{\bf Objetivo: $f_{NN} \approx \phi$}
+}
+\end{frame}
+
+\begin{frame}
+  \large{\textbf{Datos de Entrenamiento}}
+  \begin{itemize}
+    \item \alert{$X_0 = [0, x_0]$} Cantidad: 500
+    
+    \vspace*{0.5em}
+
+    Proviene de: $\phi(t,0)=\phi(t,1), t\in(0,1)$ 
+    \item  \alert{$X_b = [t_b, \{0,1\}]$} Cantidad: 500
+    
+    \vspace*{0.5em}
+
+    Proviene de: $\phi(0,x)=sin(2\pi x /L), x\in(0,1)$ 
+
+    \item \alert{$X_r=[t_r, x_r]$} Cantidad: 10000
+    
+    \vspace*{0.5em}
+    
+    Son puntos aleatorios en $(0,1)\times(0,1)$
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Arquitectura}
+
+  \begin{center}
+    \includegraphics[width=0.8\linewidth]{src/model_ed.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{¿Cómo calculamos la pérdida?}
+
+  \begin{itemize}
+    
+    \item \textbf{Primera Pérdida}
+
+    \vspace*{0.4em}
+
+    Pasamos $X_r = [t_r, x_r]$ por la red neuronal y obtenemos $f_{NN}(t_r, x_r)$
+    Aplicando diferenciación automática obtenemos $\frac{\partial f_{NN}}{\partial t}$ y $\frac{\partial f_{NN}}{\partial x}$
+    \alert{$$LOSS += \left (\frac{\partial f_{NN}}{\partial t} + u\frac{\partial f_{NN}}{\partial x}\right )^2$$}
+    
+    \item \textbf{Segunda Pérdida}
+    
+    \vspace*{0.4em}
+    
+    Pasamos $X_b = [t_b, \{0,1\}]$ por la red neuronal y obtenemos $f_{NN}(t_b, x_b)$
+    \alert{$$LOSS += (f_{NN}(t_b,0) - f_{NN}(t_b,1))^2$$}
+
+    \item \textbf{Tercera Pérdida}
+    
+    \vspace*{0.4em}
+    
+    
+    Pasamos $X_0 = [0, x_0]$ por la red neuronal y obtenemos $f_{NN}(t_0, x_0)$
+    \alert{$$LOSS += (sin(2\pi x_0 /L) - f_{NN}(t_0, x_0))^2$$}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \Large{
+  Con las perdidas anteriores lo que estamos imponiendo es cada una de las condiciones de la ecuación diferencial.
+  
+  \begin{equation*}
+    \begin{cases}
+      $$\phi_t + u\phi_x=0, (x,t)\in(0,1)\times(0,1) \\
+      \phi(t,0)=\phi(t,1), t\in(0,1) \\
+      \phi(0,x)=sin(2\pi x /L), x\in(0,1)$$
+    \end{cases}
+  \end{equation*}
+  }
+\end{frame}
+
+\begin{frame}{Resultados}
+
+  \begin{center}
+    \includegraphics[width=1\linewidth]{src/Results.png}
+  \end{center}
 
 \end{frame}
 
