@@ -1,0 +1,11 @@
+% \begin{table}[ht]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  Estado Tablero 1 & Actua 2 & Mejor acción 3 \\
+  \hline
+ 4949 & Valor 2 & Valor 3 & Valor 4 \\
+  \hline
+  \end{tabular}
+  \caption{Tabla de ejemplo}
+% \end{table}

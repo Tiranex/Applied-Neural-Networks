@@ -454,21 +454,17 @@ PyTorch12 es una biblioteca de aprendizaje automático3 de código abierto basad
 \begin{frame}{Conecta4 AI}
 Datos de entrenamiento
 Mediante el algoritmo Minimax, se genera una tabla de entrenamiento que recoge para una posición del tablero, la mejor jugada que se puede hacer.
-\begin{table}[ht]
+% \begin{table}[ht]
   \centering
   \begin{tabular}{|c|c|c|c|}
   \hline
   Estado Tablero 1 & Actua 2 & Mejor acción 3 \\
   \hline
-  \begin{pmatrix}
-
-    1 & 0 & 0 & 0 & 0 & 0 \\
-
-  \end{pmatrix} 1 & Valor 2 & Valor 3 & Valor 4 \\
+ 4949 & Valor 2 & Valor 3 & Valor 4 \\
   \hline
   \end{tabular}
   \caption{Tabla de ejemplo}
-\end{table}
+% \end{table}
 
 %\url{https://es.wikipedia.org/wiki/Minimax#/media/Archivo:Minimax.svg}
 
@@ -499,10 +495,68 @@ que ayudan a simplificar la imagen, para luego pasarlo por una capa densa y obte
 \end{frame}
 
 \begin{frame}{Criptografia AI}
+Datos de entrenamiento
+Imagenes aleatorias de tamaño 256x256
+Texto aleatorio en formato ASCII
 
-  
+
+% Separar en 2?
+Arquitectura: Autoencoder %iso Identidad
+Encoder: Inccrusta el texto en la imagen devolviendo una imagen modificada.
+Decoder: Devuelve el texto incrustado en la imagen.
+
+\begin{center}
+  \includegraphics[width=0.5\linewidth]{src/AutoEncoder-arq.png}
+\end{center}
+
 \end{frame}
 
+\begin{frame}{Encoder y Decoder}
+  % Añadir imagen de encoder y decoder
+  \begin{center}
+    \includegraphics[width=0.5\linewidth]{src/Encoder-arq.png}
+  \end{center}
+  \begin{center}
+    \includegraphics[width=0.5\linewidth]{src/Decoder-arq.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Hiperparámetros}
+  % Añadir quizas la estructura en tf
+  epochs=512, 
+  steps_per_epoch=512,
+  BATCH_SIZE = 64
+  LR = 0.001
+
+  Funciones de perdida?
+  1º MSE
+  2º Categorical Cross Entropy
+\end{frame}
+
+\begin{frame}{Doodle}
+Base de Datos
+% Añadir ejemplos de dibujos
+\end{frame}
+
+\begin{frame}{Arquitectura}
+  % Añadir imagen de arquitectura
+\end{frame}
+
+\begin{frame}{Hiperparámetros}
+  % Añadir quizas la estructura en tf
+  epochs=512, 
+  steps_per_epoch=512,
+  BATCH_SIZE = 64
+  LR = 0.001
+
+  Funciones de perdida?
+  1º MSE
+  2º Categorical Cross Entropy
+\end{frame}
+
+\begin{frame}{ED}
+
+\end{frame}
 
 
 
