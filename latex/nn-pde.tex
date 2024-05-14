@@ -44,7 +44,7 @@
 {\setbeamerfont{item projected}{size=\scriptsize}}
 \setbeamertemplate{enumerate item}[mycircle]
 
-\title{Neural Networks}
+\title{Aplicaciones de la IA al Mundo Real}
 \author{Álex Pérez Fernández, Rafa Rodríguez Galván}
 
 
@@ -173,17 +173,17 @@
 \newcommand{\imgdir}{Undefined, use renewcommand!}
 
 %--------------------------------------------------------------
-\section{Neural Networks}
+\section{Redes Neuronales}
 %--------------------------------------------------------------
 
-\begin{frame}{Neural Networks...}
+\begin{frame}{Las Redes Neuronales...}
 %--------------------------------------------------------------
   \vspace{-0.9em}
   \includegraphics[width=0.95\linewidth]{deep-NN}
   \pause
   ~
   \vfill
-  {\large\textbf{...are mathematical artifacts:}}
+  {\large\textbf{son artefactos matemáticos:}}
   \begin{gather*}
     {\color{inputcolor} \xx} \mapsto 
     {\color{hiddencolor}\ff_1({\color{inputcolor} \xx})} \mapsto 
@@ -299,7 +299,7 @@ si es baja menos probable es que dispare y viceversa, de ahí proviene la \alert
 \end{frame}
 
 \begin{frame}{Funciones de perdida}
-Una función de perdia compara la salida de la red neuronal con la salida esperada, y nos dice que tan \structure{\bf bien o mal lo esta haciendo la red neuronal.}
+Una función de perdida compara la salida de la red neuronal con la salida esperada, y nos dice que tan \structure{\bf bien o mal lo esta haciendo la red neuronal.}
 
 \vspace*{0.8em}
 
@@ -472,7 +472,7 @@ $$
   
   \vspace{0.8em}
   
-  Sustituyendo obtenemos $\frac{\partial f}{x}(6,2)= 9$ $\frac{\partial f}{x}(6,2)=-24$
+  Sustituyendo obtenemos $\frac{\partial f}{x}(6,2)= 9$ $\frac{\partial f}{y}(6,2)=-24$
   
   $$
   \begin{array}{|c|c|c|} \hline
@@ -497,7 +497,7 @@ $$
   Si un modelo no se comporta bien, entonces tenemos que modificar los hiperparámetros, ya sea para conseguir que la red aprenda más lento (tasa de aprendizaje), hacerlo más complejo (añadir más capas)\dots
 \end{frame}
 \begin{frame}{Tasa de aprendizaje}
-  La tasa de aprendizaje define el \structure{\bf tamaño de los pasos correctivas para que el modelo ajuste los errores en cada observación.} 
+  La tasa de aprendizaje define el \structure{\bf tamaño de los pasos correctivos para que el modelo ajuste los errores en cada observación.} 
   \begin{itemize}
     \item \alert{Tasa de aprendizaje alta} $\rightarrow$ 
     
@@ -764,12 +764,12 @@ escalares constantes.
 \begin{frame}
   \large{\textbf{Datos de Entrenamiento}}
   \begin{itemize}
-    \item \alert{$X_0 = [0, x_0]$} Cantidad: 500
+    \item \alert{$X_0 = [t_0, \{0,1\}]$} Cantidad: 500
     
     \vspace*{0.5em}
 
     Proviene de: $\phi(t,0)=\phi(t,1), t\in(0,1)$ 
-    \item  \alert{$X_b = [t_b, \{0,1\}]$} Cantidad: 500
+    \item  \alert{$X_b = [0, x_b]$} Cantidad: 500
     
     \vspace*{0.5em}
 
